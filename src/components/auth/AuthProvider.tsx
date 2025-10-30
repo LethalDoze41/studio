@@ -20,7 +20,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
+    const authInstance = auth;
+    const unsubscribeAuth = onAuthStateChanged(authInstance, (firebaseUser) => {
       setUser(firebaseUser);
       if (!firebaseUser) {
         setUserProfile(null);
@@ -32,7 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (user) {
-      const userDocRef = doc(db, 'users', user.uid);
+      const dbInstance = db;
+      const userDocRef = doc(dbInstance, 'users', user.uid);
       const unsubscribeProfile = onSnapshot(userDocRef, (docSnap) => {
         if (docSnap.exists()) {
           setUserProfile(docSnap.data() as UserProfile);

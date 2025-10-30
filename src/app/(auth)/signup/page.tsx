@@ -14,7 +14,6 @@ import { auth, db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Form,
   FormControl,
@@ -51,7 +50,8 @@ export default function SignUpPage() {
   });
 
   const createUserProfile = async (user: any, additionalData = {}) => {
-    const userRef = doc(db, 'users', user.uid);
+    const dbInstance = db;
+    const userRef = doc(dbInstance, 'users', user.uid);
     const userData = {
       uid: user.uid,
       email: user.email,
@@ -65,8 +65,9 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: SignUpFormValues) => {
     setIsLoading(true);
+    const authInstance = auth;
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const userCredential = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
       await updateProfile(userCredential.user, { displayName: data.displayName });
       await createUserProfile(userCredential.user, { displayName: data.displayName });
 
@@ -86,8 +87,9 @@ export default function SignUpPage() {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
+    const authInstance = auth;
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(authInstance, provider);
       await createUserProfile(result.user);
       toast({ title: 'Sign Up Successful', description: "Welcome!" });
       router.push('/profile');

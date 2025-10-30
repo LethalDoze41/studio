@@ -19,7 +19,8 @@ type FormValues = z.infer<typeof UpdatePasswordSchema>;
 export default function UpdatePasswordForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const user = auth.currentUser;
+  const authInstance = auth;
+  const user = authInstance.currentUser;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(UpdatePasswordSchema),

@@ -16,7 +16,8 @@ import type { Recipe, RecipeHistoryItem, SavedRecipe } from './types';
 
 export const toggleFavoriteRecipe = async (userId: string, recipe: Recipe, isFavorite: boolean) => {
   const recipeId = recipe.title.replace(/\s+/g, '-').toLowerCase();
-  const favRecipeRef = doc(db, 'users', userId, 'savedRecipes', recipeId);
+  const dbInstance = db;
+  const favRecipeRef = doc(dbInstance, 'users', userId, 'savedRecipes', recipeId);
 
   if (isFavorite) {
     await deleteDoc(favRecipeRef);
@@ -30,7 +31,8 @@ export const toggleFavoriteRecipe = async (userId: string, recipe: Recipe, isFav
 };
 
 export const getSavedRecipes = async (userId: string): Promise<SavedRecipe[]> => {
-  const savedRecipesRef = collection(db, 'users', userId, 'savedRecipes');
+  const dbInstance = db;
+  const savedRecipesRef = collection(dbInstance, 'users', userId, 'savedRecipes');
   const q = query(savedRecipesRef, orderBy('savedAt', 'desc'));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => doc.data() as SavedRecipe);
@@ -45,7 +47,8 @@ export const saveRecipeGeneration = async (
   preferences: RecipeHistoryItem['preferences'],
   recipes: Recipe[]
   ) => {
-    const historyCollectionRef = collection(db, 'users', userId, 'recipeHistory');
+    const dbInstance = db;
+    const historyCollectionRef = collection(dbInstance, 'users', userId, 'recipeHistory');
     await addDoc(historyCollectionRef, {
       ingredients,
       preferences,

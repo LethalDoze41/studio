@@ -13,7 +13,6 @@ import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Form,
   FormControl,
@@ -52,8 +51,9 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
+    const authInstance = auth;
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      await signInWithEmailAndPassword(authInstance, data.email, data.password);
       toast({ title: 'Login Successful', description: "Welcome back!" });
       const redirectUrl = searchParams.get('redirect_url') || '/profile';
       router.push(redirectUrl);
@@ -71,8 +71,9 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
+    const authInstance = auth;
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithPopup(authInstance, provider);
       toast({ title: 'Login Successful', description: "Welcome!" });
       const redirectUrl = searchParams.get('redirect_url') || '/profile';
       router.push(redirectUrl);

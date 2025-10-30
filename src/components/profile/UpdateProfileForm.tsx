@@ -25,7 +25,8 @@ interface UpdateProfileFormProps {
 export default function UpdateProfileForm({ userProfile }: UpdateProfileFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const user = auth.currentUser;
+  const authInstance = auth;
+  const user = authInstance.currentUser;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(UpdateProfileSchema),
@@ -41,9 +42,10 @@ export default function UpdateProfileForm({ userProfile }: UpdateProfileFormProp
     }
 
     setIsLoading(true);
+    const dbInstance = db;
     try {
       await updateAuthProfile(user, { displayName: data.displayName });
-      const userDocRef = doc(db, 'users', user.uid);
+      const userDocRef = doc(dbInstance, 'users', user.uid);
       await updateDoc(userDocRef, { displayName: data.displayName });
       
       toast({ title: 'Profile Updated!', description: "Your name has been successfully updated." });
