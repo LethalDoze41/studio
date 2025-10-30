@@ -24,9 +24,9 @@ export function UserNav() {
   const { toast } = useToast();
 
   const handleLogout = async () => {
+    if (!auth) return;
     try {
-      const authInstance = auth;
-      await signOut(authInstance);
+      await signOut(auth);
       toast({
         title: 'Logged Out',
         description: 'You have been successfully logged out.',

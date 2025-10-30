@@ -20,21 +20,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const authInstance = auth;
-    const unsubscribeAuth = onAuthStateChanged(authInstance, (firebaseUser) => {
-      setUser(firebaseUser);
-      if (!firebaseUser) {
-        setUserProfile(null);
-        setLoading(false);
-      }
-    });
-    return () => unsubscribeAuth();
+    if (auth) {
+      const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
+        setUser(firebaseUser);
+        if (!firebaseUser) {
+          setUserProfile(null);
+          setLoading(false);
+        }
+      });
+      return () => unsubscribeAuth();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
-    if (user) {
-      const dbInstance = db;
-      const userDocRef = doc(dbInstance, 'users', user.uid);
+    if (user && db) {
+      const userDocRef = doc(db, 'users', user.uid);
       const unsubscribeProfile = onSnapshot(userDocRef, (docSnap) => {
         if (docSnap.exists()) {
           setUserProfile(docSnap.data() as UserProfile);
@@ -46,6 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setLoading(false);
       });
       return () => unsubscribeProfile();
+    } else if (!user) {
+      setLoading(false);
     }
   }, [user]);
 

@@ -50,10 +50,10 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
+    if (!auth) return;
     setIsLoading(true);
-    const authInstance = auth;
     try {
-      await signInWithEmailAndPassword(authInstance, data.email, data.password);
+      await signInWithEmailAndPassword(auth, data.email, data.password);
       toast({ title: 'Login Successful', description: "Welcome back!" });
       const redirectUrl = searchParams.get('redirect_url') || '/profile';
       router.push(redirectUrl);
@@ -69,11 +69,11 @@ export default function LoginPage() {
   };
   
   const handleGoogleSignIn = async () => {
+    if (!auth) return;
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
-    const authInstance = auth;
     try {
-      await signInWithPopup(authInstance, provider);
+      await signInWithPopup(auth, provider);
       toast({ title: 'Login Successful', description: "Welcome!" });
       const redirectUrl = searchParams.get('redirect_url') || '/profile';
       router.push(redirectUrl);

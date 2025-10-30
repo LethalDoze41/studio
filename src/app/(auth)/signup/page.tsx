@@ -50,8 +50,8 @@ export default function SignUpPage() {
   });
 
   const createUserProfile = async (user: any, additionalData = {}) => {
-    const dbInstance = db;
-    const userRef = doc(dbInstance, 'users', user.uid);
+    if (!db) return;
+    const userRef = doc(db, 'users', user.uid);
     const userData = {
       uid: user.uid,
       email: user.email,
@@ -64,10 +64,10 @@ export default function SignUpPage() {
   }
 
   const onSubmit = async (data: SignUpFormValues) => {
+    if (!auth) return;
     setIsLoading(true);
-    const authInstance = auth;
     try {
-      const userCredential = await createUserWithEmailAndPassword(authInstance, data.email, data.password);
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       await updateProfile(userCredential.user, { displayName: data.displayName });
       await createUserProfile(userCredential.user, { displayName: data.displayName });
 
@@ -85,11 +85,11 @@ export default function SignUpPage() {
   };
 
   const handleGoogleSignIn = async () => {
+    if (!auth) return;
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
-    const authInstance = auth;
     try {
-      const result = await signInWithPopup(authInstance, provider);
+      const result = await signInWithPopup(auth, provider);
       await createUserProfile(result.user);
       toast({ title: 'Sign Up Successful', description: "Welcome!" });
       router.push('/profile');

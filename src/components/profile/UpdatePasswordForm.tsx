@@ -19,9 +19,7 @@ type FormValues = z.infer<typeof UpdatePasswordSchema>;
 export default function UpdatePasswordForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const authInstance = auth;
-  const user = authInstance.currentUser;
-
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(UpdatePasswordSchema),
     defaultValues: {
@@ -30,10 +28,11 @@ export default function UpdatePasswordForm() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    if (!user) {
+    if (!auth || !auth.currentUser) {
         toast({ variant: 'destructive', title: 'Not authenticated' });
         return;
     }
+    const user = auth.currentUser;
 
     setIsLoading(true);
     try {
