@@ -13,22 +13,25 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-let app: FirebaseApp;
-let auth: Auth;
-let db: Firestore;
-let storage: FirebaseStorage;
-
-if (typeof window !== 'undefined' && !getApps().length) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
-} else if (typeof window !== 'undefined') {
-  app = getApp();
-  auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
+function getFirebaseInstances() {
+  let app: FirebaseApp;
+  if (typeof window !== 'undefined') {
+    if (!getApps().length) {
+      app = initializeApp(firebaseConfig);
+    } else {
+      app = getApp();
+    }
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+    return { app, auth, db, storage };
+  }
+  // This is a server-side rendering, return null or mock instances
+  // to avoid errors.
+  return { app: null, auth: null, db: null, storage: null };
 }
 
-// @ts-ignore
+const { app, auth, db, storage } = getFirebaseInstances();
+
+
 export { app, auth, db, storage };
