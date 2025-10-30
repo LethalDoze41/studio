@@ -6,11 +6,11 @@ import type { z } from 'zod';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
+import { doc, serverTimestamp, setDoc, getFirestore } from 'firebase/firestore';
 
 import { SignUpSchema } from '@/lib/schemas';
-import { auth, db } from '@/lib/firebase';
+import { app } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -44,13 +44,15 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: { displayName: '', email: '', password: '' },
   });
 
   const createUserProfile = async (user: any, additionalData = {}) => {
-    if (!db) return;
     const userRef = doc(db, 'users', user.uid);
     const userData = {
       uid: user.uid,
@@ -64,7 +66,6 @@ export default function SignUpPage() {
   }
 
   const onSubmit = async (data: SignUpFormValues) => {
-    if (!auth) return;
     setIsLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
@@ -85,7 +86,6 @@ export default function SignUpPage() {
   };
 
   const handleGoogleSignIn = async () => {
-    if (!auth) return;
     setIsGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {

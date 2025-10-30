@@ -1,3 +1,4 @@
+
 import {
   collection,
   deleteDoc,
@@ -8,14 +9,16 @@ import {
   serverTimestamp,
   setDoc,
   addDoc,
+  getFirestore,
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { app } from './firebase';
 import type { Recipe, RecipeHistoryItem, SavedRecipe } from './types';
+
+const db = getFirestore(app);
 
 // --- Favorite Recipes ---
 
 export const toggleFavoriteRecipe = async (userId: string, recipe: Recipe, isFavorite: boolean) => {
-  if (!db) return;
   const recipeId = recipe.title.replace(/\s+/g, '-').toLowerCase();
   const favRecipeRef = doc(db, 'users', userId, 'savedRecipes', recipeId);
 
@@ -31,7 +34,6 @@ export const toggleFavoriteRecipe = async (userId: string, recipe: Recipe, isFav
 };
 
 export const getSavedRecipes = async (userId: string): Promise<SavedRecipe[]> => {
-  if (!db) return [];
   const savedRecipesRef = collection(db, 'users', userId, 'savedRecipes');
   const q = query(savedRecipesRef, orderBy('savedAt', 'desc'));
   const querySnapshot = await getDocs(q);
@@ -47,7 +49,6 @@ export const saveRecipeGeneration = async (
   preferences: RecipeHistoryItem['preferences'],
   recipes: Recipe[]
   ) => {
-    if (!db) return;
     const historyCollectionRef = collection(db, 'users', userId, 'recipeHistory');
     await addDoc(historyCollectionRef, {
       ingredients,

@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useState } from 'react';
-import { updatePassword } from 'firebase/auth';
+import { updatePassword, getAuth } from 'firebase/auth';
 
 import { UpdatePasswordSchema } from '@/lib/schemas';
-import { auth } from '@/lib/firebase';
+import { app } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,7 +28,8 @@ export default function UpdatePasswordForm() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    if (!auth || !auth.currentUser) {
+    const auth = getAuth(app);
+    if (!auth.currentUser) {
         toast({ variant: 'destructive', title: 'Not authenticated' });
         return;
     }

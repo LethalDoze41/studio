@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useState } from 'react';
-import { updateProfile as updateAuthProfile } from 'firebase/auth';
-import { doc, updateDoc } from 'firebase/firestore';
+import { updateProfile as updateAuthProfile, getAuth } from 'firebase/auth';
+import { doc, updateDoc, getFirestore } from 'firebase/firestore';
 
 import { UpdateProfileSchema } from '@/lib/schemas';
-import { auth, db } from '@/lib/firebase';
+import { app } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,6 +26,9 @@ export default function UpdateProfileForm({ userProfile }: UpdateProfileFormProp
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
@@ -34,7 +37,7 @@ export default function UpdateProfileForm({ userProfile }: UpdateProfileFormProp
   });
 
   const onSubmit = async (data: FormValues) => {
-    if (!auth || !auth.currentUser || !db) {
+    if (!auth.currentUser) {
         toast({ variant: 'destructive', title: 'Not authenticated or DB not available' });
         return;
     }

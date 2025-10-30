@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { signOut } from 'firebase/auth';
+import { signOut, getAuth } from 'firebase/auth';
 import { LogOut, Settings, User } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
-import { auth } from '@/lib/firebase';
+import { app } from '@/lib/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,10 +22,10 @@ import { useToast } from '@/hooks/use-toast';
 export function UserNav() {
   const { user, userProfile, loading } = useAuth();
   const { toast } = useToast();
-
+  
   const handleLogout = async () => {
-    if (!auth) return;
     try {
+      const auth = getAuth(app);
       await signOut(auth);
       toast({
         title: 'Logged Out',
