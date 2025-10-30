@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "recipe-1",
+      "description": "A vibrant and fresh salad in a white bowl.",
+      "imageUrl": "https://images.unsplash.com/photo-1644172971013-b3dfee71fa0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmcmVzaCUyMHNhbGFkfGVufDB8fHx8MTc2MTc5MTA5Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fresh salad"
+    },
+    {
+      "id": "recipe-2",
+      "description": "A steaming plate of pasta with tomato sauce.",
+      "imageUrl": "https://images.unsplash.com/photo-1516685018646-549198525c1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwYXN0YSUyMGRpc2h8ZW58MHx8fHwxNzYxNzg1NjM0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pasta dish"
+    },
+    {
+      "id": "recipe-3",
+      "description": "A sizzling stir-fry in a wok.",
+      "imageUrl": "https://images.unsplash.com/photo-1638324395681-9f6509ebb3f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdGlyLWZyeXxlbnwwfHx8fDE3NjE3NDk3ODN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "stir-fry"
+    },
+    {
+      "id": "recipe-4",
+      "description": "A stack of fluffy pancakes with syrup.",
+      "imageUrl": "https://images.unsplash.com/photo-1610898763980-367f03bd7edc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGFuY2FrZXMlMjBicmVha2Zhc3R8ZW58MHx8fHwxNzYxNzY4OTQyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pancakes breakfast"
+    },
+    {
+      "id": "recipe-5",
+      "description": "A delicious homemade pizza with various toppings.",
+      "imageUrl": "https://images.unsplash.com/photo-1614936686168-fe496ca37dc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxob21lbWFkZSUyMHBpenphfGVufDB8fHx8MTc2MTgwNDI2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "homemade pizza"
+    },
+    {
+      "id": "recipe-6",
+      "description": "A warm bowl of soup.",
+      "imageUrl": "https://images.unsplash.com/photo-1603355736640-34a2bee52da3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoZWFydHklMjBzb3VwfGVufDB8fHx8MTc2MTgwNTI5OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hearty soup"
+    }
+  ]
 }
