@@ -92,6 +92,11 @@ Return response as a JSON array with this structure:
   "tips": string,
   "dietaryCompliance": [string]
 }]`,
+
+  // Add a fix step to the prompt to handle any formatting or schema-related errors in the AI's response.
+  fix: {
+    prompt: `The AI response had the following errors: {{{error}}}. Please fix them and provide the response in the correct format.`,
+  },
 });
 
 const generateRecipesFromIngredientsFlow = ai.defineFlow(

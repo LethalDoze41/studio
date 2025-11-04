@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
@@ -37,15 +37,11 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-
-export default function SignUpPage() {
+function SignUpComponent() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-
-  const auth = getAuth(app);
-  const db = getFirestore(app);
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(SignUpSchema),
@@ -53,6 +49,7 @@ export default function SignUpPage() {
   });
 
   const createUserProfile = async (user: any, additionalData = {}) => {
+    const db = getFirestore(app);
     const userRef = doc(db, 'users', user.uid);
     const userData = {
       uid: user.uid,
@@ -67,6 +64,7 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: SignUpFormValues) => {
     setIsLoading(true);
+    const auth = getAuth(app);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       await updateProfile(userCredential.user, { displayName: data.displayName });
@@ -87,6 +85,7 @@ export default function SignUpPage() {
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
+    const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
@@ -168,4 +167,12 @@ export default function SignUpPage() {
       </div>
     </AuthFormCard>
   );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <SignUpComponent />
+    </Suspense>
+  )
 }
