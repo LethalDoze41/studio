@@ -185,8 +185,8 @@ export default function RecipeGenerator() {
                   )}
               >
                   {imagePreview ? (
-                      <Image src={imagePreview} alt="Ingredients preview" fill className="object-contain rounded-lg p-2"/>
-                  ) : (
+    <img src={imagePreview} alt="Ingredients preview" className="w-full h-full object-contain rounded-lg p-2"/>
+) : (
                       <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground p-4 text-center">
                         <UploadCloud className="h-12 w-12" />
                         <p className="font-semibold">Drag & drop an image or click to upload</p>
