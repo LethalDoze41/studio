@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { signOut, getAuth } from 'firebase/auth';
-import { LogOut, Settings, User } from 'lucide-react';
+import { LogOut, Settings, User, ChefHat } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { app } from '@/lib/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -85,19 +85,25 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link href="/profile">
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/profile#settings">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+  <DropdownMenuItem asChild>
+    <Link href="/dashboard">
+      <ChefHat className="mr-2 h-4 w-4" />
+      <span>Dashboard</span>
+    </Link>
+  </DropdownMenuItem>
+  <DropdownMenuItem asChild>
+    <Link href="/profile">
+      <User className="mr-2 h-4 w-4" />
+      <span>Profile</span>
+    </Link>
+  </DropdownMenuItem>
+  <DropdownMenuItem asChild>
+    <Link href="/profile#settings">
+      <Settings className="mr-2 h-4 w-4" />
+      <span>Settings</span>
+    </Link>
+  </DropdownMenuItem>
+</DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />

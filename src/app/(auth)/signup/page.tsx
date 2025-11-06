@@ -71,7 +71,7 @@ function SignUpComponent() {
       await createUserProfile(userCredential.user, { displayName: data.displayName });
 
       toast({ title: 'Account Created!', description: "Welcome to Culinary Muse." });
-      router.push('/profile');
+      router.push('/dashboard');
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -91,7 +91,7 @@ function SignUpComponent() {
       const result = await signInWithPopup(auth, provider);
       await createUserProfile(result.user);
       toast({ title: 'Sign Up Successful', description: "Welcome!" });
-      router.push('/profile');
+      router.push('/dashboard');
     } catch (error: any) {
       toast({
         variant: 'destructive',

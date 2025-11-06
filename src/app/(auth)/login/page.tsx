@@ -54,8 +54,8 @@ function LoginComponent() {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       toast({ title: 'Login Successful', description: "Welcome back!" });
-      const redirectUrl = searchParams.get('redirect_url') || '/profile';
-      router.push(redirectUrl);
+      const redirectUrl = searchParams.get('redirect_url') || '/dashboard';
+router.push(redirectUrl);
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -74,8 +74,8 @@ function LoginComponent() {
     try {
       await signInWithPopup(auth, provider);
       toast({ title: 'Login Successful', description: "Welcome!" });
-      const redirectUrl = searchParams.get('redirect_url') || '/profile';
-      router.push(redirectUrl);
+      const redirectUrl = searchParams.get('redirect_url') || '/dashboard';
+router.push(redirectUrl);
     } catch (error: any) {
       toast({
         variant: 'destructive',

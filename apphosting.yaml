@@ -27,7 +27,7 @@ env:
       - RUNTIME
   
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
-    value: studio-5730400457-ecc03.appspot.com
+    value: studio-5730400457-ecc03.firebasestorage.app
     availability:
       - BUILD
       - RUNTIME
